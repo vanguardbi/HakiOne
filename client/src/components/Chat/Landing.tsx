@@ -75,7 +75,8 @@ export default function Landing({ centerFormOnLanding }: { centerFormOnLanding: 
       const customWelcome = startupConfig.interface.customWelcome;
       // Replace {{user.name}} with actual user name if available
       if (user?.name && customWelcome.includes('{{user.name}}')) {
-        return customWelcome.replace(/{{user.name}}/g, user.name);
+        const firstName = user.name.split(' ')[0];
+        return customWelcome.replace(/{{user.name}}/g, firstName);
       }
       return customWelcome;
     }
@@ -141,7 +142,7 @@ export default function Landing({ centerFormOnLanding }: { centerFormOnLanding: 
   const greetingText =
     typeof startupConfig?.interface?.customWelcome === 'string'
       ? getGreeting()
-      : getGreeting() + (user?.name ? ', ' + user.name : '');
+      : getGreeting() + (user?.name ? ', ' + user.name.split(' ')[0] : '');
 
   return (
     <div

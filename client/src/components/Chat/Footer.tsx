@@ -37,9 +37,9 @@ export default function Footer({ className }: { className?: string }) {
   const mainContentParts = (
     typeof config?.customFooter === 'string'
       ? config.customFooter
-      : '[LibreChat ' +
+      : '[Haki One ' +
         Constants.VERSION +
-        '](https://librechat.ai) - ' +
+        '](https://one.haki.africa) - ' +
         localize('com_ui_latest_footer')
   ).split('|');
 

@@ -10,6 +10,7 @@ import ExportAndShareMenu from './ExportAndShareMenu';
 import BookmarkMenu from './Menus/BookmarkMenu';
 import { TemporaryChat } from './TemporaryChat';
 import AddMultiConvo from './AddMultiConvo';
+import HakiLogo from '~/components/HakiLogo';
 import { useHasAccess } from '~/hooks';
 
 const defaultInterface = getConfigDefaults().interface;
@@ -69,6 +70,9 @@ export default function Header() {
               </>
             )}
           </div>
+        </div>
+        <div className="absolute left-1/2 -translate-x-1/2 font-normal">
+          <HakiLogo logoSize="h-6" textSize="text-lg" />
         </div>
         {!isSmallScreen && (
           <div className="flex items-center gap-2">
