@@ -38,7 +38,7 @@ export default function Footer({ className }: { className?: string }) {
     typeof config?.customFooter === 'string'
       ? config.customFooter
       : '[Haki One ' +
-        Constants.VERSION +
+        'v1' +
         '](https://one.haki.africa) - ' +
         localize('com_ui_latest_footer')
   ).split('|');

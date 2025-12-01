@@ -27,8 +27,10 @@ const edit = require('./edit');
 const keys = require('./keys');
 const user = require('./user');
 const mcp = require('./mcp');
+const haki = require('./haki');
 
 module.exports = {
+  haki,
   mcp,
   edit,
   auth,
