@@ -86,6 +86,8 @@ const initializeClient = async ({ req, res, endpointOption, optionsOnly, overrid
     throw new Error(`${endpoint} Base URL not provided.`);
   }
 
+  console.log(`[CustomEndpoint] Initializing ${endpoint} with BaseURL: ${baseURL}`);
+
   const cache = getLogStores(CacheKeys.TOKEN_CONFIG);
   const tokenKey =
     !endpointConfig.tokenConfig && (userProvidesKey || userProvidesURL)

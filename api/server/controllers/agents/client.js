@@ -998,6 +998,8 @@ class AgentClient extends BaseClient {
           '[api/server/controllers/agents/client.js #sendCompletion] Unhandled error type',
           err,
         );
+        // Log the full error object to see connection details
+        console.error('Full Agent Client Error:', err);
         this.contentParts.push({
           type: ContentTypes.ERROR,
           [ContentTypes.ERROR]: `An error occurred while processing the request${err?.message ? `: ${err.message}` : ''}`,

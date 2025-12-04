@@ -6,6 +6,7 @@ const { ChatOpenAI } = require('@langchain/openai');
 const { Pinecone } = require('@pinecone-database/pinecone');
 const { OpenAIEmbeddings } = require('@langchain/openai');
 const { PineconeStore } = require('@langchain/pinecone');
+const { log } = require('~/server/utils/hakiLogger');
 
 // --- Configuration & Env ---
 const envSchema = z.object({
@@ -63,15 +64,17 @@ const answerPrompt = PromptTemplate.fromTemplate(QA_TEMPLATE);
 // --- Models ---
 const nonStreamingModel = new ChatOpenAI({
   openAIApiKey: env.OPENAI_API_KEY,
-  modelName: 'gpt-4.1-2025-04-14',
+  modelName: 'gpt-4o', // Changed to gpt-4o for reliability
   temperature: 0.1,
+  verbose: true,
 });
 
 const streamingModel = new ChatOpenAI({
   openAIApiKey: env.OPENAI_API_KEY,
-  modelName: 'gpt-4.1-2025-04-14', // Adjust model as needed
+  modelName: 'gpt-4o', // Adjust model as needed
   streaming: true,
   temperature: 0.1,
+  verbose: true,
 });
 
 // --- Utilities ---
@@ -103,10 +106,12 @@ async function buildHakiChain() {
       original_input: new RunnablePassthrough(),
     },
     async (prevItems) => {
+      log('[HakiService] Standalone Question:', prevItems.standalone_question);
       // Resolve context from Pinecone
       const context = await retrieverChain.invoke({
         standalone_question: prevItems.standalone_question,
       });
+      log('[HakiService] Context retrieved length:', context ? context.length : 0);
       return {
         context: context,
         question: prevItems.original_input.question,
