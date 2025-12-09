@@ -216,7 +216,7 @@ class AgentClient extends BaseClient {
    * `AgentClient` is not opinionated about vision requests, so we don't do anything here
    * @param {MongoFile[]} attachments
    */
-  checkVisionRequest() {}
+  checkVisionRequest() { }
 
   getSaveOptions() {
     // TODO:
@@ -946,6 +946,16 @@ class AgentClient extends BaseClient {
 
         /** @deprecated Agent Chain */
         config.configurable.last_agent_id = agents[agents.length - 1].id;
+
+        const debugInfo = {
+          messagesCount: messages.length,
+          model: this.model,
+          endpoint: this.options.endpoint,
+          requestBody: config.configurable.requestBody,
+        };
+        console.error('[api/server/controllers/agents/client.js] Starting processStream', debugInfo);
+        logger.error('[api/server/controllers/agents/client.js] Starting processStream', debugInfo);
+
         await run.processStream({ messages }, config, {
           callbacks: {
             [Callback.TOOL_ERROR]: logToolError,

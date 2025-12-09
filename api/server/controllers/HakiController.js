@@ -17,6 +17,8 @@ const hakiController = async (req, res) => {
   try {
     const { messages, model } = req.body;
 
+    console.log('[HakiController] Request received:', { model, messageCount: messages?.length });
+
     // Safety check
     if (!messages || !messages.length) {
       return res.status(400).json({ error: 'No messages provided' });
@@ -24,6 +26,10 @@ const hakiController = async (req, res) => {
 
     // Handle Title Generation Request (Easiest Option)
     if (model === 'haki-title') {
+      console.log('[HakiController] Generating title...');
+      if (!process.env.OPENAI_API_KEY) {
+        console.error('[HakiController] OPENAI_API_KEY is missing!');
+      }
       const lastMessage = messages[messages.length - 1];
       const prompt = lastMessage.content;
 
@@ -38,6 +44,7 @@ const hakiController = async (req, res) => {
       const chain = titleModel.pipe(outputParser);
       
       const title = await chain.invoke(prompt);
+      console.log('[HakiController] Title generated:', title);
 
       return res.json({
         id: 'chatcmpl-' + Date.now(),
@@ -95,7 +102,7 @@ const hakiController = async (req, res) => {
     console.error('Error in Haki Controller:', error);
     const errorPayload = {
       error: {
-        message: 'Internal Server Error in Haki Chain',
+        message: `Internal Server Error in Haki Chain: ${error.message}`,
         type: 'internal_server_error',
       },
     };
